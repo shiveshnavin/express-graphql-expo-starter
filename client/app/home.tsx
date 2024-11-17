@@ -6,7 +6,7 @@ import { Avatar, Center, PressableView, Subtitle, TextView, ThemeContext, VBox, 
 import { User } from '../../gen/model'
 import { router } from "expo-router";
 import { ScrollView } from "react-native";
-import KeyboardAvoidingScrollView, { HBox } from "react-native-boxes/src/Box";
+import  { HBox , KeyboardAvoidingScrollView} from "react-native-boxes/src/Box";
 
 export default function HomeLayout() {
     const theme = useContext(ThemeContext)
