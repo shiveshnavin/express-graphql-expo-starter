@@ -1,6 +1,6 @@
 import express from "express";
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
+import { expressMiddleware } from '@as-integrations/express5';
 import path from "path";
 import axios from "axios";
 import fs from 'fs'
@@ -13,8 +13,8 @@ db.create("users_comments", {
 }).then(() => console.log('DB Initialized'))
 
 const typeDefs = [
-fs.readFileSync('model.graphql').toString(),
-// ... you other models
+  fs.readFileSync('model.graphql').toString(),
+  // ... you other models
 ]
 const resolvers = {
   User: {
@@ -67,12 +67,14 @@ const app = express()
 
 //see https://docs.expo.dev/more/expo-cli/#hosting-with-sub-paths
 //cd client && npx expo export
-const ui = express.Router()
-ui.all('*',
-  express.static(path.join(__dirname, 'client/dist')), (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/dist/index.html'))
-  })
-app.use('/ui', ui)
+
+// Serve static files for the UI
+app.use('/ui', express.static(path.join(__dirname, 'client/dist')))
+
+// SPA fallback: send index.html for any unmatched /ui route (Express 5 syntax)
+app.get('/ui/*splat', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'))
+})
 
 // Remove in production
 app.get("/", (_req, res) => {
