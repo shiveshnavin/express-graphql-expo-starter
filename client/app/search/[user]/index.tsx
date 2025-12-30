@@ -1,11 +1,12 @@
 import { AppContext } from "@/components/Context";
-import { gql, useMutation } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useLocalSearchParams } from "expo-router";
 import { useRouteInfo, useRouter } from "expo-router/build/hooks";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Center, Expand, TextView, ThemeContext, Title, VBox, VPage } from "react-native-boxes";
 import { User } from "../../../../gen/model";
+import { useMutation } from "@apollo/client/react";
 
 
 export default function QueryPage() {
@@ -24,12 +25,12 @@ export default function QueryPage() {
         }
     `;
     const [addComment, { data, loading, error }] = useMutation(ADD_COMMENT);
-    useEffect( () => {
+    useEffect(() => {
 
         addComment({
-            variables:{
-                id:user,
-                comment:'I visited on '+(new Date()).toTimeString()
+            variables: {
+                id: user,
+                comment: 'I visited on ' + (new Date()).toTimeString()
             }
         })
         let query = `
@@ -54,22 +55,22 @@ export default function QueryPage() {
     }, [user])
 
 
-    
+
 
     return (
         <VPage>
             <Center>
                 <TextView>Hello {user}!</TextView>
                 <Title>{curUser.userName}</Title>
-               <Expand title="See comments">
-                <VBox>
+                <Expand title="See comments">
+                    <VBox>
                         {
-                            curUser?.comments?.map(cm=>
+                            curUser?.comments?.map(cm =>
                                 <TextView key={cm}>{cm}</TextView>
                             )
                         }
                     </VBox>
-               </Expand>
+                </Expand>
             </Center>
         </VPage>
     );

@@ -16,6 +16,7 @@ const typeDefs = [
   fs.readFileSync('model.graphql').toString(),
   // ... you other models
 ]
+const SampleUsers = JSON.parse(fs.readFileSync('samples/user.json').toString())
 const resolvers = {
   User: {
     async comments(parent) {
@@ -51,10 +52,10 @@ const resolvers = {
     }
   },
   Query: {
-    users: () =>
-      axios.get(`https://reqres.in/api/users?per_page=12`).then(d => d.data.data),
-    User: (parent, arg, ctx, info) =>
-      axios.get(`https://reqres.in/api/users/${arg.id}`).then(d => d.data.data)
+    users: () => SampleUsers,
+    User: (parent, arg, ctx, info) => {
+      return SampleUsers.find(u => u.id == arg.id)
+    },
   }
 }
 const appoloServer = new ApolloServer({
