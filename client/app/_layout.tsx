@@ -8,8 +8,8 @@ import { Stack, router, useRouter } from 'expo-router';
 import { Slot } from 'expo-router';
 import { BottomNavBar, SimpleToolbar, VBox, VPage } from 'react-native-boxes';
 import { useRouteInfo } from "expo-router/build/hooks";
-import {KeyboardAvoidingScrollView} from "react-native-boxes/";
-import { ApolloProvider } from "@apollo/client";
+import { KeyboardAvoidingScrollView } from "react-native-boxes/";
+import { ApolloProvider } from "@apollo/client/react";
 
 
 function Main() {
@@ -50,7 +50,7 @@ function Main() {
     console.log('route', route)
     let id = route.pathname.split('/')[1]
     setBottombarId(id)
-    router.navigate(route.unstable_globalHref)
+    // router.navigate(route.unstable_globalHref)
   }, [])
   return (
     <ThemeContext.Provider value={theme} >

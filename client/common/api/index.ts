@@ -1,6 +1,10 @@
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql, ApolloLink, HttpLink } from '@apollo/client';
+
+const link = ApolloLink.from([
+    new HttpLink({ uri: "/graph" }),
+]);
 const client = new ApolloClient({
-    uri: 'http://192.168.0.110:4000/graph',
+    link: link,
     cache: new InMemoryCache(),
 });
 
